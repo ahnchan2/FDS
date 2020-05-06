@@ -1,0 +1,1 @@
+python labelme_resize.py --img_input_dir D:/333_youtube_detection/imgs --json_input_dir D:/333_youtube_detection/jsons --output_dir D:/333_youtube_detection/rescale
