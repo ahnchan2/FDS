@@ -1,0 +1,66 @@
+centos 7.4 설치
+centos 참고 사이트
+	https://linuxize.com/post/how-to-install-opencv-on-centos-7/
+	
+ubuntu 16.x 참고 사이트
+	https://webnautes.tistory.com/1030
+
+
+# centos build-essential
+yum groupinstall "Development Tools"
+
+# python3
+yum install https://centos7.iuscommunity.org/ius-release.rpm
+yum install python36u
+yum install python36u-devel
+
+# cmake
+yum install openssl-devel
+wget https://cmake.org/files/v3.16/cmake-3.16.1.tar.gz
+
+https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.sh
+
+./bootstrap --prefix=/usr/local
+make && make install
+cmake --version
+	찾을수 없는 경우
+	vi ~./bash_profile
+	PATH=/usr/local/bin:$PATH:$HOME/bin
+
+
+# opencv build dependencies (실행하지 않음)
+yum install epel-release git gcc gcc-c++ qt5-qtbase-devel numpy python36-numpy gtk2-devel libpng-devel jasper-devel openexr-devel libwebp-devel libjpeg-turbo-devel libtiff-devel libdc1394-devel tbb-devel eigen3-devel gstreamer-plugins-base-devel freeglut-devel mesa-libGL mesa-libGL-devel boost boost-thread boost-devel libv4l-devel
+
+
+# configuration
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=OFF -D WITH_IPP=OFF -D WITH_1394=OFF -D BUILD_WITH_DEBUG_INFO=OFF -D BUILD_DOCS=OFF -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=OFF -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D WITH_QT=ON -D WITH_GTK=OFF -D WITH_OPENGL=ON -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.2/modules -D WITH_V4L=ON  -D WITH_FFMPEG=ON -D WITH_XINE=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D OPENCV_GENERATE_PKGCONFIG=ON  ../
+
+
+# CUDA 옵션 추가
+-D WITH_CUDA=ON
+
+# python3 옵션 추가
+-D PYTHON3_INCLUDE_DIR=/usr/include/python3.6m -D PYTHON3_NUMPY_INCLUDE_DIRS=/usr/lib64/python3.6/site-packages/numpy/core/include -D PYTHON3_PACKAGES_PATH=/usr/lib64/python3.6/site-packages -D PYTHON3_LIBRARY=/usr/lib64/libpython3.6m.so -D BUILD_opencv_python3=yes
+
+
+# python2 옵션 추가
+-D PYTHON2_INCLUDE_DIR=/usr/include/python2.7 
+-D PYTHON2_NUMPY_INCLUDE_DIRS=/usr/lib/python2.7/dist-packages/numpy/core/include/ 
+-D PYTHON2_PACKAGES_PATH=/usr/lib/python2.7/dist-packages 
+-D PYTHON2_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7.so -D BUILD_opencv_python2=yes
+
+
+# Configuring done, Generating done 확인 후, build
+time make
+
+# 이 명령은 install 필요한 경우만
+sudo make install
+
+# python 에 참조
+설치할 python 또는 virtualenv 환경에 진입한 뒤, python_loader 폴더로 이동하여 다음 명령어 수행하여 설치
+	python3 setup.py install
+
+
+
+
+

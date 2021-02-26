@@ -1,0 +1,7 @@
+1. 사용자 계정에서 sudo 명령어 포함하여 virtualenv, virtualenvwrapper 설치. (=> 그래야 root 계정에서도 사용가능)
+
+2. 사용자 계정에 ~/.virtualenvs 생성 및 ~/.bashrc 파일에 다음 추가
+	# python virtualenv settings
+	export WORKON_HOME=~/.virtualenvs
+	export VIRTUALENVWRAPPER_PYTHON='$(command \which python3)'
+	source /usr/local/bin/virtualenvwrapper.sh

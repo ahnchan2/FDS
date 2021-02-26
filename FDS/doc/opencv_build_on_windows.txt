@@ -1,0 +1,56 @@
+requirements
+	CUDA 지원 GPU
+	GPU Driver 와 CUDA SDK 설치
+	Microsoft Visual Studio 2017 (2019 버전은 opencv 에서 빌드 지원하지 않음)
+	Install Python3
+	CMake
+	
+1. 소스다운로드 및 압축해제
+	https://github.com/opencv/opencv
+	https://github.com/opencv/opencv_contrib
+	
+	- 참고 리눅스 소스
+		https://github.com/opencv/opencv/archive/4.1.2.tar.gz
+		https://github.com/opencv/opencv_contrib/archive/4.1.2.tar.gz
+
+2. opencv 압축해제 폴더 하위에 build 폴더 생성
+
+3. cmake 실행
+	source code 경로 => opencv 압축해제한 경로 지정
+	build binaries 경로 => opencv 압축해제한 하위에 생성한 build 폴더 경로 
+	
+4. configure 버튼 클릭 후 아래 설정
+	project => Visual Studio 15 2017
+	platform => x64
+	Use default native compilers
+	Finish 버튼 클릭
+
+5. 옵션 체크 후, configure 버튼 클릭
+	WITH_CUDA => 체크
+	PYTHON3 항목 확인 (인터프리터 경로 등)
+
+6. Error in configuration process, project files may be invalid 발생
+
+7. 옵션 체크 후, configure 버튼 클릭
+	CUDA_ARCH_BIN 항목 확인
+	CUDA_TOOLKIT_ROOT_DIR 항목 확인
+	CUDA_FAST_MATH => 체크
+	OPENCV_EXTRA_MODULES_PATH => opencv_contrib 압축해제한 하위에 modules 폴더 경로 지정
+	
+8. 콘솔 내역에 Configuring done 확인, NVIDIA CUDA 확인
+
+9. Generate 버튼 클릭, Generating done 확인
+
+10. Visual Studio 2017 의 x64 Native Tools Command Prompt for VS 2017 실행하여 커맨드창 띄움
+	초기 생성한 build 폴더 경로로 이동
+	다음 명령어 수행하여 install (약 4~5시간)
+		build 만 수행 : msbuild ALL_BUILD.vcxproj /p:Configuration=Release
+		install 까지 수행 : msbuild INSTALL.vcxproj /p:Configuration=Release
+
+11. build 폴더 이하에 install 폴더 생성되며, 다음 경로에 설치됨
+		install/x64/vc15/bin 과 lib
+		
+		
+12. python 라이브러리 설치는 build 폴더 이하에 python_loader 폴더로 이동하여 다음 명령어 수행하여 설치
+	python setup.py install
+	

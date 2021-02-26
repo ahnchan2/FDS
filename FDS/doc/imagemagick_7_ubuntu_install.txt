@@ -1,0 +1,16 @@
+$ sudo apt update 
+$ sudo apt-get install build-essential
+
+$ wget https://www.imagemagick.org/download/ImageMagick.tar.gz
+
+$ tar xvzf ImageMagick.tar.gz
+$ cd ImageMagick-7.0.8-26/
+
+$./configure --prefix=/usr/local
+$ make
+$ sudo make install 
+$ sudo ldconfig /usr/local/lib
+
+$ magick -version
+OR
+$ identify -version

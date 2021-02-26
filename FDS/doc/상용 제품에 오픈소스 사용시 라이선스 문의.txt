@@ -1,0 +1,2 @@
+상용 제품에 오픈소스 사용시 라이선스 문의
+	https://www.oss.kr/oss_license_qna/show/c93ea01c-f34e-4508-8b72-6ba24cb41b06

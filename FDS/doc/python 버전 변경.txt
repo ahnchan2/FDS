@@ -1,0 +1,24 @@
+<참고 사이트>
+https://jaydenchoe.tistory.com/entry/%EC%9A%B0%EB%B6%84%ED%88%AC1604-LTS%EC%97%90-%ED%8C%8C%EC%9D%B4%EC%8D%AC-36-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0
+
+1. python 3.6 설치
+	sudo add-apt-repository ppa:jonathonf/python-3.6
+	sudo apt-get update
+	sudo apt-get install python3.6
+	이상의 과정을 마치면 시스템에는 파이썬 2.7, 파이썬 3.5, 그리고 파이썬 3.6이 설치된 상태이다. 아래 명령을 통해 버전을 확인해 보자.
+
+2. 설치 버전 확인
+	python -V
+	python3 -V
+	python3.6 -V
+
+3. 현재 파이썬 3의 디폴트값이 3.5로 되어 있는데, 이것을 3.6으로 변경하려면 아래 명령을 수행한다.
+	sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 1
+	sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
+	이제 Python3의 디폴트값이 3.6으로 변경되었다. 나중에 이를 다시 3.5로 변경하려면 아래 명령을 수행한다. 이후 화면의 명령을 따르면 된다.
+	
+4. python 3.5 복원
+	sudo update-alternatives --config python3
+
+
+

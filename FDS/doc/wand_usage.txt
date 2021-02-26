@@ -1,0 +1,48 @@
+import cv2
+diff = cv2.imread("diff.jpg")
+diff = diff.astype("uint8")
+diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+cv2.imwrite("diff_gray.jpg", diff_gray)
+thresh = cv2.threshold(diff, 50, 255, cv2.THRESH_BINARY)[1]
+thresh = cv2.threshold(diff_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+cv2.imwrite("thresh.jpg", thresh)
+thresh_gray = cv2.cvtColor(thresh, cv2.COLOR_BGR2GRAY)
+cv2.imwrite('thresh_gray.jpg', thresh_gray)
+
+
+
+
+import cv2
+import subprocess
+file_1 = 'a.jpg'
+file_2 = 'align.jpg'
+cmd = ["magick", "composite", file_1, file_2, "-compose", "difference", "diff.jpg"]
+fconvert = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+stdout, stderr = fconvert.communicate()
+assert fconvert.returncode == 0, stderr
+
+# now stdout is TIF image. let's load it with OpenCV
+filebytes = numpy.asarray(bytearray(stdout), dtype=numpy.uint8)
+image = cv2.imdecode(filebytes, cv2.IMREAD_COLOR)
+
+
+
+
+
+from io import BytesIO
+from wand.image import Image
+import numpy as np
+import cv2
+
+img_1 = Image(filename='bbg_a.jpg')
+img_2 = Image(filename='bbg_b.jpg')
+
+img_1.composite(img_2, operator='difference')
+# img_1.save(filename='wand_diff.jpg')
+img_buffer=np.asarray(bytearray(img_1.make_blob()), dtype=np.uint8)
+diff = cv2.imdecode(img_buffer, cv2.IMREAD_COLOR)
+# img_bytesIO = BytesIO(img_buffer)
+# img = skimage.io.imread(img_bytesIO)
+cv2.imwrite("wand_diff_bgr.jpg", diff)
+diff = cv2.cvtColor(diff, cv2.COLOR_BGR2RGB)
+cv2.imwrite("wand_diff_rgb.jpg", diff)

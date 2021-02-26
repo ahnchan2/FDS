@@ -1,0 +1,13 @@
+# 확인
+(venv 관계 없음) jupyter kernelspec list
+
+# 등록
+(venv) pip install ipykernel
+
+(venv) ipython kernel install --user --name 가상환경이름 --display-name "가상환경이름"
+또는
+(venv) python -m ipykernel install --user --name 가상환경이름 --display-name "가상환경이름"
+
+
+# 삭제
+(venv 관계 없음) jupyter kernelspec uninstall 가상환경이름

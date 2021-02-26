@@ -1,0 +1,2 @@
+nohup ./foodract_rpa_bg.sh 5 > /dev/null 2>&1 
+nohup ./foodract_qms_bg.sh 4 > /dev/null 2>&1

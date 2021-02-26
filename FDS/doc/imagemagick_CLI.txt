@@ -1,0 +1,15 @@
+use this to find the differences:
+	magick convert 비비고칩_a-1.jpg 비비고칩_b.jpg -compose difference -composite -threshold 0 -separate -evaluate-sequence Add diff.jpg
+	magick composite a.jpg align.jpg -compose difference diff.jpg
+
+use this for a simple subtraction:
+	magick convert 비비고칩_a-1.jpg 비비고칩_b.jpg -compose minus -composite diff.jpg
+	
+compare 비비고칩_a-1.jpg 비비고칩_b.jpg -compose src diff.jpg
+
+
+	
+contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+
+

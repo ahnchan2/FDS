@@ -1,0 +1,76 @@
+# MySQL 버전을 확인
+sudo apt-cache search mysql-server
+
+
+# MySQL 5.7 설치
+sudo apt-get install mysql-server-5.7
+
+
+# MySQL 5.7 설치확인
+/etc/init.d/mysql status
+
+
+# MySQL root 계정 접속, 데이터베이스 조회
+mysql -uroot -p -e'show databases'
+
+
+# MySQL 한글 설정
+/etc/mysql/conf.d/mysql.cnf
+	기존 항목 모두 삭제 후, 다음 입력
+
+	[mysqld]
+	datadir=/var/lib/mysql
+	socket=/var/lib/mysql/mysql.sock
+	user=mysql
+	character-set-server=utf8
+	collation-server=utf8_general_ci
+	init_connect = set collation_connection = utf8_general_ci
+	init_connect = set names utf8
+
+	[mysql]
+	default-character-set=utf8
+
+	[mysqld_safe]
+	log-error=/var/log/mysqld.log
+	pid-file=/var/run/mysqld/mysqld.pid
+	default-character-set=utf8
+
+	[client]
+	default-character-set=utf8
+
+	[mysqldump]
+	default-character-set=utf8
+
+	
+# mysql 재시작	
+/etc/init.d/mysql restart
+
+
+# 한글 설정 반영 확인
+	# MySQL root 계정 로그인
+	mysql -uroot -p
+	status 명령어 입력 시, characterset 이 utf8 로 변경 되어있는지 확인
+
+
+# 원격 접속 허용
+/etc/mysql/mysql.conf.d/mysqld.cnf
+	아래 항목 주석 처리
+	bind-address           = 127.0.0.1
+
+
+# mysql 재시작	
+/etc/init.d/mysql restart
+
+
+
+# root 원격 접속 허용
+INSERT INTO mysql.user (host,user,authentication_string,ssl_cipher, x509_issuer, x509_subject) VALUES ('%','root',password('cjonrnd'),'','','');
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+FLUSH PRIVILEGES;
+
+
+
+# 새 user 생성 및 권한 부여
+create user 'cjonrnd'@'%' identified by 'cjonrnd';
+GRANT ALL PRIVILEGES ON *.* TO 'cjonrnd'@'%' IDENTIFIED BY 'cjonrnd';
+flush privileges;

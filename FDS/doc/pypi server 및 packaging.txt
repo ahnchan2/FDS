@@ -1,0 +1,61 @@
+<참조 사이트>
+https://brownbears.tistory.com/30
+https://hyunalee.tistory.com/50#footnote_link_50_1
+
+사이트 내 설명 오류 있음
+	=> (기존) htpasswd -s htaccess <생성할 private pypi 아이디>
+	=> (변경) htpasswd -sc .htpasswd <생성할 private pypi 아이디>
+
+
+<~/.pypirc 파일 설정>
+	[distutils]
+	index-servers =
+		pypi
+		internal
+
+	[pypi] => pypi 사이트 가입 계정
+	username:<pypi 아이디>
+	password:<pypi 비밀번호>
+
+	[internal] => htpasswd 명령어로 생성한 계정
+	repository: http://<private pypi 서버 IP>:<port>
+	username:<할당된ID>
+	password:<비밀번호>
+
+
+
+<docker 이미지>
+sudo docker run -t -i -d -h pypi.local -v /srv/pypi:/srv/pypi:rw -p 8080:80 --name pypi codekoala/pypi
+
+
+<setup.py 내용>
+	from setuptools import Extension, setup
+
+	#try: # for pip >= 10
+	#    from pip._internal.req import parse_requirements
+	#except ImportError: # for pip <= 9.0.3
+	#    from pip.req import parse_requirements
+	#
+	#install_reqs = parse_requirements('nts.txt', session=False)
+	#reqs = [str(ir.req) for ir in install_reqs]
+	#print('reqs: {}'.format(reqs))
+
+	setup(
+		name='cjpackage',
+		version='0.0.1',
+		py_modules=['cjpackage'],
+		author='cjdtrnd',
+		author_email='cjdtrnd@cj.net',
+		description='CJ DT RND PACKAGE TEST',
+		install_requires=['requests==1.2.0'],
+	)
+
+
+<source빌드+whl빌드>
+python3 setup.py sdist bdist_wheel
+
+<source빌드+whl빌드+등록+업로드>
+python3 setup.py sdist bdist_wheel register -r internal upload -r internal
+
+<다운로드>
+pip install --trusted-host <private pypi 서버 IP> -i http://<private pypi 서버 IP>:<port>/simple <패키지명>

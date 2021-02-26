@@ -1,0 +1,3 @@
+ubuntu 16.x 참고 사이트
+	https://webnautes.tistory.com/1030
+

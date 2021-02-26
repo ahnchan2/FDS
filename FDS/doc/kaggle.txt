@@ -1,0 +1,74 @@
+# plot 설정
+	import matplotlib.pyplot as plt
+	import seaborn as sns
+
+	plt.style.use('seaborn')
+	sns.set(font_scale=1.0)
+
+# null 체크
+	# 단순
+	df.isnull().sum()
+	
+	# 그래프
+	import missingno as msno
+	msno.matrix(df)
+	
+	# 그래프2
+	msno.bar(df=df_train.iloc[:, :], figsize=(7, 7), color=(0.8, 0.5, 0.2))
+	
+
+# 열의 value 당 개수
+	sns.factorplot(x='season',data=df,kind='count',size=5,aspect=1.5)
+
+
+# one hot encoding
+	# 기존열 삭제
+	df_train = pd.get_dummies(df_train, columns=['Initial'], prefix='Initial')
+
+	# 기존열 유지
+	weather=pd.get_dummies(df['weather'],prefix='weather')
+	df=pd.concat([df,weather],axis=1)
+
+# correlation
+	# 전체
+	heatmap_data = df_train[['Survived', 'Pclass', 'Sex', 'Fare', 'Embarked', 'FamilySize', 'Initial', 'Age_cat']] 
+
+	colormap = plt.cm.RdBu
+	plt.figure(figsize=(14, 12))
+	plt.title('Pearson Correlation of Features', y=1.05, size=15)
+	sns.heatmap(heatmap_data.astype(float).corr(), linewidths=0.1, vmax=1.0,
+			   square=True, cmap=colormap, linecolor='white', annot=True, annot_kws={"size": 16})
+
+	del heatmap_data
+	
+	# 반쪽
+	cor_mat= df[:].corr()
+	mask = np.array(cor_mat)
+	mask[np.tril_indices_from(mask)] = False
+	fig=plt.gcf()
+	fig.set_size_inches(30,12)
+	sns.heatmap(data=cor_mat,mask=mask,square=True,annot=True,cbar=True)
+	
+# histogram
+	df.temp.unique()
+	fig,axes=plt.subplots(2,2)
+	axes[0,0].hist(x="temp",data=df,edgecolor="black",linewidth=2,color='#ff4125')
+	axes[0,0].set_title("Variation of temp")
+	axes[0,1].hist(x="atemp",data=df,edgecolor="black",linewidth=2,color='#ff4125')
+	axes[0,1].set_title("Variation of atemp")
+	axes[1,0].hist(x="windspeed",data=df,edgecolor="black",linewidth=2,color='#ff4125')
+	axes[1,0].set_title("Variation of windspeed")
+	axes[1,1].hist(x="humidity",data=df,edgecolor="black",linewidth=2,color='#ff4125')
+	axes[1,1].set_title("Variation of humidity")
+	fig.set_size_inches(10,10)
+	
+	
+# datetime 을 column 나누기
+	test_df["hour"] = [t.hour for t in pd.DatetimeIndex(test_df.datetime)]
+	test_df["day"] = [t.dayofweek for t in pd.DatetimeIndex(test_df.datetime)]
+	test_df["month"] = [t.month for t in pd.DatetimeIndex(test_df.datetime)]
+	test_df['year'] = [t.year for t in pd.DatetimeIndex(test_df.datetime)]
+	test_df['year'] = test_df['year'].map({2011:0, 2012:1})
+	
+# 특정 열의 값 다른 값으로 매핑하기
+	test_df['year'] = test_df['year'].map({2011:0, 2012:1})

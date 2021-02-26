@@ -1,0 +1,18 @@
+windows 에 공유할 폴더 생성 및 우클릭-속성-공유
+
+<cifs mount>
+apt-get install cifs-utils
+
+mkdir -p /mnt/share
+
+mount -t cifs -o username=cjonrnd,password=cjonrnd,vers=2.0 //10.184.61.248/share /mnt/share
+
+
+
+
+<Host is down 에러 발생시 확인>
+smbclient -L <server_ip> -U <username> -d 256
+	-> protocol negotiation failed: NT_STATUS_CONNECTION_RESET 에러 발생
+	
+smbclient -L <server_ip> -U <username> -m SMB2
+

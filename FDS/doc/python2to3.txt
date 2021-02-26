@@ -1,0 +1,4 @@
+<convert version recursive directory>
+python {2to3.py 파일경로} --output-dir={version3 로 convert 될 위치} -w -n {version2 소스경로}
+
+python C:\Users\cjonrnd\AppData\Local\Programs\Python\Python35\Tools\scripts\2to3.py --output-dir=D:\jongchan\source\tmp\insightface-convert -w -n D:\jongchan\source\tmp\insightface

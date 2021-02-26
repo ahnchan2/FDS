@@ -1,0 +1,23 @@
+<pip 버전 업그레이드 후, ImportError: cannot import name 'main'>
+pip 위치 확인:
+
+$ which pip
+path -> /usr/bin/pip
+
+pip 파일 에디터로 열기
+
+$ sudo vim /usr/bin/pip
+
+
+You can see:
+
+from pip import main
+if __name__ == '__main__':
+     sys.exit(main())
+
+Change to:
+
+import sys
+from pip import __main__
+if __name__ == '__main__':
+     sys.exit(__main__._main())

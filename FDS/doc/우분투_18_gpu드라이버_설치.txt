@@ -1,0 +1,65 @@
+** 참조 사이트
+	https://hiseon.me/linux/ubuntu/install_nvidia_driver/
+	https://codechacha.com/ko/install-nvidia-driver-ubuntu/
+
+1. 드라이버 설치 확인
+	cat /proc/driver/nvidia/version
+	
+2. GPU 확인
+	lspci -k
+	sudo lshw -C display
+	ubuntu-drivers devices
+	
+3. repository 추가
+	sudo add-apt-repository ppa:graphics-drivers/ppa
+	sudo apt update
+
+4. 설치 가능 드라이버 목록 확인
+	apt-cache search nvidia | grep nvidia-driver-440
+
+5. 드라이버 설치
+	sudo apt-get install nvidia-driver-440
+	
+6. 필요 라이브러리 추가 설치
+	sudo apt-get install dkms nvidia-modprobe
+	
+7. reboot
+	sudo reboot
+
+
+
+
+** ubuntu-drivers로 드라이버 자동설치
+	ubuntu-drivers autoinstall 명령어를 사용하면 알아서 적당한 드라이버를 설치를 해줍니다. 적당한 버전을 알아서 설치해주기 때문에 특정 드라이버를 설치한다면 이 방법을 사용해서는 안됩니다.
+
+	repository를 업데이트하고 autoinstall을 입력하면 됩니다. 설치 후 reboot을 해주세요.
+
+	$ sudo add-apt-repository ppa:graphics-drivers/ppa
+	$ sudo apt update
+	$ sudo ubuntu-drivers autoinstall
+	$ sudo reboot
+	만약 설치과정에서 기존에 설치된 프로그램들과 충돌이 발생하면 아래 명령어로 관련 프로그램을 삭제하고 다시 시도해보세요.
+
+	$ sudo apt --purge autoremove nvidia*
+	
+
+
+** docker 설치 공식 가이드
+		https://docs.docker.com/engine/install/ubuntu/
+	
+** nvidia-container-toolkit 설치 필요
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update && sudo apt-get install nvidia-container-toolkit
+sudo systemctl restart docker
+
+
+** docker 그룹 추가
+	sudo usermod -aG docker cjonrnd
+	sudo service docker restart
+	exit
+
+** docker 프로세스 전체 삭제
+	docker rm $(docker ps -a -q)
+	
